@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<!-- maximum-scale=1, minimum-scale=1 height=device-height target-densitydpi=device-dpi -->
+		<title>Intel&reg; ARK</title>
+		<link href="css/jqm.css" rel="stylesheet" type="text/css" />
+		<link href="css/jqt.css" rel="stylesheet" type="text/css" />
+		<link href="css/fonts.css" rel="stylesheet" type="text/css" />
+		<link href="css/ark.css" rel="stylesheet" type="text/css" />
+		<link href="css/ark-device.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<!-- App has three pages: the splash screen, the current visible page
+			and the next page to be display (used for animated transitions).
+			These pages are created dynamically.
+			Javascript keeps track of which page is currently being viewed.
+		-->
+		<div id="splash" class="ui-page ui-page-active">
+			<div class="ui-content">
+				<img id="splash-bg-img-1" src="img/splash-1.jpg" class="splash-bg-img" style="display:none;" />
+				<img id="splash-bg-img-2" src="img/splash-2.jpg" class="splash-bg-img" style="display:none;" />
+				<img id="splash-bg-img-3" src="img/splash-3.jpg" class="splash-bg-img" style="display:none;" />
+				<div id="splash-title-container">
+					<div id="splash-title">Intel<span class="reg">&reg;</span> ARK</div>
+					<div id="splash-subtitle"></div>
+					<img class="logo" src="img/intel-logo-2.png" />
+				</div>
+				<div id="message-container">
+					<div id="message"></div>
+					<div id="progress-bar" class="hidden"></div>
+				</div>
+				<div id="screen-size">
+					<div>iH: <span id="height"></span></div>
+					<div>iW: <span id="width"></span></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Page content -->
+		<div id="page-template" class="hidden">
+			<div class="wrapper hidden">
+				<div class="modal-mask hidden" touch-action="none"></div>
+				<div class="ui-grid-d">
+					<div class="ui-block-a small-phone-header hidden ui-header">
+						<div class="main-header">
+							<div class="header-image">Intel<span class="reg">&reg;</span> ARK</div>
+							<div class="right">
+								<a class="back-button"></a>
+								<a class="home-button"></a>
+								<a class="search-button"></a>
+								<a class="menu-button"></a>
+								<a class="queue-button"><span class="queue-count"></span></a>
+							</div>
+						</div>
+					</div>
+					<div class="ui-block-a large-phone-header hidden ui-header">
+						<div class="main-header">
+							<a class="back-button"></a>
+							<a class="home-button"></a>
+						</div>
+						<div class="header-image">Intel<span class="reg">&reg;</span> ARK</div>
+						<div class="main-header right">
+							<a class="search-button"></a>
+							<a class="menu-button"></a>
+							<a class="queue-button"><span class="queue-count"></span></a>
+						</div>
+						
+					</div>
+					<div class="ui-block-a tablet-header ui-header">
+						<div class="main-header">
+							<a class="back-button"></a>
+							<a class="home-button"></a>
+						</div>
+						<div class="header-image">Intel<span class="reg">&reg;</span> ARK</div>
+						<div class="main-header right">
+							<a class="search-button"></a>
+							<div class="outer-searchbox">
+								<input class="searchbox" type="text" name="searchbox" value="" />
+								<a id="closesearch"></a>
+							</div>
+							<a class="menu-button"></a>
+							<a class="modify-queue-button"></a>
+							<a class="queue-button"><span class="queue-count"></span></a>
+						</div>
+					</div>
+				</div>
+				<div class="ui-grid-a">
+					<div class="ui-block-a tablet-nav"><div class="search-popup hidden"></div></div>
+					<div class="ui-block-b content"></div>
+					<div class="modal-mask-content hidden"></div>
+				</div>
+				<div class="search-popup hidden">
+					<div class="tablet-popup">
+						<div class="nav"></div>
+						<div class="search-content"></div>
+					</div>
+					<div class="phone-popup">
+						<div class="header">
+							<a class="search-button"></a>
+							<div class="outer-searchbox">
+								<input class="searchbox" type="text" name="searchbox" value="" /><a id="closesearch"></a>
+							</div>
+							<a class="queue-button"><span class="queue-count"></span></a>
+						</div>
+						<div class="search-content">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="top-level-content" class="hidden">
+			<div class="ui-content">
+				<ul class="top-level-list"></ul>
+			</div>
+		</div>
+
+		<div id="categories-content" class="hidden">
+			<div class="categories-list-header"></div>
+			<div class="ui-content">
+				<ul class="categories-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+		</div>
+
+		<div id="categories-nav" class="hidden">
+			<div class="tablet-nav-subheader"></div>
+			<div class="ui-content">
+				<ul class="tablet-nav-list"></ul>
+			</div>
+		</div>
+
+		<div id="products-content" class="hidden">
+			<div class="products-list-header"></div>
+			<div class="ui-content">
+				<ul class="products-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+		</div>
+
+		<div id="products-nav" class="hidden">
+			<div class="tablet-nav-subheader"></div>
+			<div class="ui-content">
+				<ul class="tablet-nav-list"></ul>
+			</div>
+		</div>
+
+		<div id="product-content" class="hidden">
+			<div class="product-list-header"></div>
+			<div class="ui-content">
+				<ul class="product-list"></ul>
+				<ul class="codename-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+			<div class="ui-footer"></div>
+		</div>
+
+		<div id="queue-content" class="hidden">
+			<div class="ui-content">
+				<ul class="queue-list"></ul>
+				<div class="empty-queue hidden"></div>
+				<div class="clear-div"><div class="clear-button"><a></a></div></div>
+			</div>
+			<div class="ui-grid-a ui-footer">
+				<div class="ui-block-a"><a class="comp-selected"></a></div>
+				<div class="ui-block-b"><a class="comp-all"></a></div>
+			</div>
+		</div>
+
+		<div id="compare-nav" class="hidden">
+			<div class="queue-header"><span class="queue-name"></span></div>
+			<div class="ui-content">
+				<ul class="queue-list"></ul>
+				<div class="empty-queue hidden"></div>
+				<div class="clear-div"><div class="clear-button"><a></a></div></div>
+				<ul class="share-list compare-share-list"></ul>
+			</div>
+			<div class="ui-grid-a ui-footer">
+				<div class="ui-block-a"><a class="select-all"></a></div>
+				<div class="ui-block-b"><a class="select-none"></a></div>
+			</div>
+		</div>
+
+		<div id="compare-content" class="hidden">
+			<div class="compare-header hidden"><span class="queue-name"></span></div>
+			<div class="ui-content">
+				<ul class="compare-list"></ul>
+			</div>
+			<div class="ui-footer"></div>
+		</div>
+
+		<div id="specs-content" class="hidden">
+			<div class="specs-header"></div>
+			<div class="ui-content">
+				<ul class="specs-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+			<div class="ui-footer"></div>
+		</div>
+
+		<div id="specs-nav" class="hidden">
+			<div class="product-subheader"></div>
+			<div class="ui-content">
+				<ul class="product-list"></ul>
+				<ul class="codename-list"></ul>
+				<ul class="extlinks-list"></ul>
+				<ul class="share-list"></ul>
+			</div>
+		</div>
+
+		<div id="compatible-products-detail-content" class="hidden">
+			<div class="compatible-products-detail-header"></div>
+			<div class="ui-content">
+				<ul class="compatible-products-detail-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+			<div class="ui-footer"></div>
+		</div>
+
+		<div id="compatible-products-detail-nav" class="hidden">
+			<div class="product-subheader"></div>
+			<div class="ui-content">
+				<ul class="product-list"></ul>
+				<ul class="codename-list"></ul>
+				<ul class="extlinks-list"></ul>
+				<ul class="share-list"></ul>
+			</div>
+		</div>
+
+		<div id="order-specs-content" class="hidden">
+			<div class="order-specs-header"></div>
+			<div class="ui-content">
+				<ul class="order-specs-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+			<div class="ui-footer"></div>
+		</div>
+
+		<div id="order-specs-nav" class="hidden">
+			<div class="product-subheader"></div>
+			<div class="ui-content">
+				<ul class="product-list"></ul>
+				<ul class="codename-list"></ul>
+				<ul class="extlinks-list"></ul>
+				<ul class="share-list"></ul>
+			</div>
+		</div>
+
+		<div id="chipset-components-content" class="hidden">
+			<div class="chipset-components-header"></div>
+			<div class="ui-content">
+				<ul class="chipset-components-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+			<div class="ui-footer"></div>
+		</div>
+
+		<div id="chipset-components-nav" class="hidden">
+			<div class="product-subheader"></div>
+			<div class="ui-content">
+				<ul class="product-list"></ul>
+				<ul class="codename-list"></ul>
+				<ul class="extlinks-list"></ul>
+				<ul class="share-list"></ul>
+			</div>
+		</div>
+
+		<div id="pcnmdds-content" class="hidden">
+			<div class="pcnmdds-header"></div>
+			<div class="ui-content">
+				<ul class="pcnmdds-list"></ul>
+				<ul class="disclaimers"></ul>
+			</div>
+			<div class="ui-footer"></div>
+		</div>
+
+		<div id="pcnmdds-nav" class="hidden">
+			<div class="product-subheader"></div>
+			<div class="ui-content">
+				<ul class="product-list"></ul>
+				<ul class="codename-list"></ul>
+				<ul class="extlinks-list"></ul>
+				<ul class="share-list"></ul>
+			</div>
+		</div>
+
+		<ul id="disclaimers-structure" class="hidden">
+			<li class="disclaimers-header">
+				<span class="disclaimers-label"></span>
+				<span class="disclaimers-toggle"></span>
+			</li>
+			<li class="disclaimers-body">
+				<ul class="disclaimers-list"></ul>
+			</li>
+		</ul>
+		<!-- /Page content -->
+		<script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
+		<script src="js/jquery-dateFormat.min.js" type="text/javascript"></script>
+		<script src="cordova.js" type="text/javascript"></script>
+		<script src="js/fastclick.js" type="text/javascript"></script>
+		<script src="js/compiled.js" type="text/javascript"></script>
+	</body>
+</html>
